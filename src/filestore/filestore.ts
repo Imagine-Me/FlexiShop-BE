@@ -2,7 +2,13 @@ import * as fs from "fs";
 import { BadRequestException } from "@nestjs/common";
 
 const fileTypes = {
-  image: ["image/png", "image/jpg", "image/jpeg"],
+  image: [
+    "image/png",
+    "image/jpg",
+    "image/jpeg",
+    "image/svg+xml",
+    "image/webp",
+  ],
 };
 
 export const filesInterceptor = (type: keyof typeof fileTypes) => ({
