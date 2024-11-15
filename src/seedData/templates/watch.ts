@@ -5,6 +5,7 @@ const theme: ThemeOptions = {
     MuiTextField: {
       defaultProps: {
         size: "small",
+        fullWidth: true,
       },
     },
   },

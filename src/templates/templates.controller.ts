@@ -10,8 +10,10 @@ import {
 import { TemplatesService } from "./templates.service";
 import { CreateTemplateDto } from "./dto/create-template.dto";
 import { UpdateTemplateDto } from "./dto/update-template.dto";
+import { ApiTags } from "@nestjs/swagger";
 
 @Controller("templates")
+@ApiTags("Templates")
 export class TemplatesController {
   constructor(private readonly templatesService: TemplatesService) {}
 
@@ -25,7 +27,7 @@ export class TemplatesController {
     return this.templatesService.findAll();
   }
 
-  @Get(":id")
+  @Get(":name")
   findOne(@Param("name") name: string) {
     return this.templatesService.findOne(name);
   }

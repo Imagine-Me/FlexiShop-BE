@@ -1,4 +1,4 @@
 import { general } from "./general";
-import { version } from "./version";
+import { theme } from "./theme";
 
-export default [version, general];
+export default [theme, general];
