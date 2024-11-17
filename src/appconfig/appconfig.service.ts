@@ -2,9 +2,10 @@ import { Injectable, OnModuleInit } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Appconfig } from "./entities/appconfig.entity";
 import { Repository } from "typeorm";
-import * as configSeedData from "./constants";
 import { CustomException } from "src/common/error/error";
 import { httpErrors } from "src/constants/errors.constant";
+import appConfig from "src/seedData/appConfig";
+import { CreateAppconfigDto } from "./dto/create-appconfig.dto";
 
 @Injectable()
 export class AppconfigService implements OnModuleInit {
@@ -14,33 +15,24 @@ export class AppconfigService implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    await this.create();
+    await this.initialize();
   }
 
-  async create() {
-    try {
-      const palettePromises = configSeedData.data.map(
-        async (config: { name: string; data: object }) => {
-          const dbPalette = await this.appConfigRepository.findOneBy({
-            name: config.name,
-          });
-          if (dbPalette) {
-            console.log("Data already present for ", config.name);
-            return null;
-          } else {
-            console.log("Data inserting for ", config.name);
-            const newPalette = this.appConfigRepository.create(config);
-            return this.appConfigRepository.save(newPalette);
-          }
-        },
-      );
-
-      // Wait for all the promises to resolve
-      await Promise.all(palettePromises);
-      console.log("All palettes processed.");
-    } catch (error) {
-      console.error("Error seeding palettes: ", error);
+  async initialize() {
+    for (const config of appConfig) {
+      const row = await this.findOne(config.name);
+      if (row) {
+        console.log(`Appconfig ${config.name} is already created`);
+        continue;
+      }
+      await this.create(config);
+      console.log(`Appconfig ${config.name} created`);
     }
+  }
+
+  create(data: CreateAppconfigDto) {
+    const row = this.appConfigRepository.create(data);
+    return this.appConfigRepository.save(row);
   }
 
   findAll() {
