@@ -1,3 +1,4 @@
+import { IHeader } from "src/interface/components/header.interface";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -10,4 +11,7 @@ export class Template extends BaseEntity {
 
   @Column("json")
   theme: object;
+
+  @Column("json")
+  header: IHeader;
 }

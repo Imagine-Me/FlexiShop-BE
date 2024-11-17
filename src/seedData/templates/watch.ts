@@ -1,4 +1,5 @@
 import { ThemeOptions } from "@mui/material";
+import { IHeader } from "src/interface/components/header.interface";
 
 const theme: ThemeOptions = {
   components: {
@@ -6,6 +7,18 @@ const theme: ThemeOptions = {
       defaultProps: {
         size: "small",
         fullWidth: true,
+      },
+    },
+    MuiCard: {
+      defaultProps: {
+        variant: "elevation",
+      },
+      styleOverrides: {
+        root: {
+          borderRadius: "10px",
+          boxShadow:
+            "0px 2px 1px -1px rgba(0,0,0,0.1),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)",
+        },
       },
     },
   },
@@ -91,9 +104,51 @@ const theme: ThemeOptions = {
       activatedOpacity: 0.12,
     },
   },
+  typography: {
+    fontFamily: ["Poppins", "Arial", "sans-serif"].join(","),
+    h1: {
+      fontSize: "36px",
+      fontWeight: 600,
+      lineHeight: "46px",
+    },
+    h2: {
+      fontSize: "28px",
+      fontWeight: 600,
+      lineHeight: "38px",
+    },
+    h3: {
+      fontSize: "24px",
+      fontWeight: 600,
+      lineHeight: "34px",
+    },
+    h4: {
+      fontSize: "20px",
+      fontWeight: 600,
+      lineHeight: "30px",
+    },
+    h5: {
+      fontSize: "18px",
+      fontWeight: 600,
+      lineHeight: "28px",
+    },
+    h6: {
+      fontSize: "16px",
+      fontWeight: 600,
+      lineHeight: "26px",
+    },
+    body1: {
+      fontSize: "16px",
+      fontWeight: 400,
+    },
+  },
+};
+
+const header: IHeader = {
+  logo: "http://localhost:3000/static/843e677c-6369-4633-84ea-c5ce539820dc",
 };
 
 export default {
   name: "watch",
   theme,
+  header,
 };
