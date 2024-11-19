@@ -11,6 +11,7 @@ import { TemplatesService } from "./templates.service";
 import { CreateTemplateDto } from "./dto/create-template.dto";
 import { UpdateTemplateDto } from "./dto/update-template.dto";
 import { ApiTags } from "@nestjs/swagger";
+import { UpdateHeaderDto } from "./dto/update-header.dto";
 
 @Controller("templates")
 @ApiTags("Templates")
@@ -30,6 +31,11 @@ export class TemplatesController {
   @Get(":name")
   findOne(@Param("name") name: string) {
     return this.templatesService.findOne(name);
+  }
+
+  @Post("/header/:name")
+  updateHeader(@Param("name") name: string, @Body() header: UpdateHeaderDto) {
+    return this.templatesService.updateHeader(name, header);
   }
 
   @Patch(":id")
