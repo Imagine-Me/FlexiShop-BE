@@ -144,7 +144,14 @@ const theme: ThemeOptions = {
 };
 
 const header: IHeader = {
-  logo: "http://localhost:3000/static/843e677c-6369-4633-84ea-c5ce539820dc",
+  name: "watchHeader",
+  title: "Watches",
+  logo: {
+    name: "watch-log",
+    url: "http://localhost:3000/static/843e677c-6369-4633-84ea-c5ce539820dc",
+  },
+  wishListIcon: { name: "FaRegHeart", type: "fa" },
+  cartIcon: { name: "MdOutlineShoppingCart", type: "md" },
 };
 
 export default {
