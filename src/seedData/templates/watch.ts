@@ -1,9 +1,16 @@
 import { ThemeOptions } from "@mui/material";
+import { IFooter } from "src/interface/components/footer.interface";
 import { IHeader } from "src/interface/components/header.interface";
 
 const theme: ThemeOptions = {
   components: {
     MuiTextField: {
+      defaultProps: {
+        size: "small",
+        fullWidth: true,
+      },
+    },
+    MuiSelect: {
       defaultProps: {
         size: "small",
         fullWidth: true,
@@ -154,8 +161,58 @@ const header: IHeader = {
   cartIcon: { name: "MdOutlineShoppingCart", type: "md" },
 };
 
+const footer: IFooter = {
+  logo: {
+    url: "http://localhost:3000/static/843e677c-6369-4633-84ea-c5ce539820dc",
+    name: "watch-log",
+  },
+  name: "watchFooter",
+  linkMenu: [
+    { links: [{ url: "/home", title: "Home" }], title: "Pages" },
+    {
+      links: [
+        { url: "/home", title: "New Arrivals" },
+        { url: "/home", title: "Feature Products" },
+        { url: "/home", title: "Brands" },
+      ],
+      title: "Products",
+    },
+    {
+      links: [
+        { url: "/home", title: "Terms And Conditions" },
+        { url: "/home", title: "Policies" },
+      ],
+      title: "About",
+    },
+  ],
+  copyright: "2024 FlexiShop. All rights reserved.",
+  socialMedia: [
+    {
+      url: "https://www.facebook.com",
+      icon: { name: "IoLogoFacebook", type: "io5" },
+      title: "Facebook",
+    },
+    {
+      url: "https://www.instagram.com",
+      icon: { name: "AiFillInstagram", type: "ai" },
+      title: "Instagram",
+    },
+    {
+      url: "https://www.twitter.com",
+      icon: { name: "FaTwitter", type: "fa" },
+      title: "Twitter",
+    },
+    {
+      url: "https://www.linkedin.com",
+      icon: { name: "FaLinkedin", type: "fa6" },
+      title: "LinkedIn",
+    },
+  ],
+};
+
 export default {
   name: "watch",
   theme,
   header,
+  footer,
 };

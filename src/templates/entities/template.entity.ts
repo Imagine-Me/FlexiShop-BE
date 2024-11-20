@@ -1,3 +1,4 @@
+import { IFooter } from "src/interface/components/footer.interface";
 import { IHeader } from "src/interface/components/header.interface";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
@@ -14,4 +15,7 @@ export class Template extends BaseEntity {
 
   @Column("json")
   header: IHeader;
+
+  @Column("json")
+  footer: IFooter;
 }

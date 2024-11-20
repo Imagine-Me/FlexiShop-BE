@@ -7,6 +7,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Template } from "./entities/template.entity";
 import { Repository } from "typeorm";
 import { UpdateHeaderDto } from "./dto/update-header.dto";
+import { UpdateFooterDto } from "./dto/update-footer.dto";
 
 @Injectable()
 export class TemplatesService implements OnModuleInit {
@@ -56,6 +57,17 @@ export class TemplatesService implements OnModuleInit {
     return this.templateRepository.save({
       ...row,
       header: updateTemplateHeaderDto,
+    });
+  }
+
+  async updateFooter(name: string, updateTemplateHeaderDto: UpdateFooterDto) {
+    const row = await this.findOne(name);
+    if (!row) {
+      throw new Error(`Template ${name} not found`);
+    }
+    return this.templateRepository.save({
+      ...row,
+      footer: updateTemplateHeaderDto,
     });
   }
 
