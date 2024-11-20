@@ -1,5 +1,6 @@
 import { IIcon } from "src/filestore/dto/icon.dto";
 import { Filestore } from "src/filestore/entities/filestore.entity";
+import { AlignmentEnum, ColorEnum } from "./common.interface";
 // interface
 
 export interface ILink {
@@ -14,8 +15,16 @@ interface IProductModel {
   rating: number;
   description: string;
 }
+interface CommonCardProps {
+  image: Partial<Filestore>;
+  title1: string;
+  title2: string;
+  align: AlignmentEnum;
+  buttonText?: string;
+  color?: ColorEnum;
+}
 
-export type Components = "carousel1" | "category1" | "productTile";
+export type Components = "carousel1" | "category1" | "productTile" | "tile1";
 
 interface Component<T, E extends Components> {
   name: E;
@@ -35,13 +44,28 @@ interface Category1 {
   link: ILink;
 }
 
+// Product Tile
 interface ProductTile {
   products: IProductModel[];
   title: string;
   link: ILink;
 }
 
+// Tile 1
+export interface Tile1Props {
+  card1: {
+    image: Partial<Filestore>;
+    title1: string;
+    title2: string;
+    align: AlignmentEnum;
+    footer: string;
+  };
+  card2: CommonCardProps;
+  card3: CommonCardProps;
+}
+
 export type HomeComponents =
   | Component<Carousel1, "carousel1">
   | Component<Category1, "category1">
-  | Component<ProductTile, "productTile">;
+  | Component<ProductTile, "productTile">
+  | Component<Tile1Props, "tile1">;

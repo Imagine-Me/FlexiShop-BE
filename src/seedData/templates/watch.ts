@@ -1,4 +1,8 @@
 import { ThemeOptions } from "@mui/material";
+import {
+  AlignmentEnum,
+  ColorEnum,
+} from "src/interface/components/common.interface";
 import { IFooter } from "src/interface/components/footer.interface";
 import { IHeader } from "src/interface/components/header.interface";
 import { HomeComponents } from "src/interface/components/home.interface";
@@ -337,6 +341,41 @@ export const home: HomeComponents[] = [
           description: "This is a high-quality analog watch for",
         },
       ],
+    },
+  },
+  {
+    name: "tile1",
+    data: {
+      card1: {
+        align: AlignmentEnum.LEFT,
+        title1: "Watches",
+        title2: "Your style delivered. Exclusively Online.",
+        footer: "www.site.com",
+        image: {
+          url: "http://localhost:3000/static/91109a85-1e48-47e2-a5b5-d314181a2f97",
+          name: "product -1 ",
+        },
+      },
+      card2: {
+        align: AlignmentEnum.LEFT,
+        title1: "Timeless elegance",
+        title2: "Discover our accessories collection",
+        image: {
+          url: "http://localhost:3000/static/2850f52d-bb17-4a91-b435-e0e2f464257a",
+          name: "product -2 ",
+        },
+        color: ColorEnum.GREY,
+      },
+      card3: {
+        align: AlignmentEnum.RIGHT,
+        title1: "Find your perfect watch",
+        title2: "Explore our latest collection",
+        image: {
+          url: "http://localhost:3000/static/7c1939bd-e648-4960-9931-c46c658ca800",
+          name: "product -3 ",
+        },
+        color: ColorEnum.GREY,
+      },
     },
   },
 ];
