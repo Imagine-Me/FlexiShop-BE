@@ -218,6 +218,7 @@ const footer: IFooter = {
 export const home: HomeComponents[] = [
   {
     name: "carousel1",
+    className: "watchPadding",
     data: [
       {
         name: "watch-1",
@@ -239,6 +240,7 @@ export const home: HomeComponents[] = [
   },
   {
     name: "category1",
+    className: "watchPadding",
     data: {
       categories: [
         {
@@ -271,6 +273,7 @@ export const home: HomeComponents[] = [
   },
   {
     name: "productTile",
+    className: "watchPadding",
     data: {
       link: {
         title: "See All",
@@ -345,6 +348,7 @@ export const home: HomeComponents[] = [
   },
   {
     name: "tile1",
+    className: "watchPadding",
     data: {
       card1: {
         align: AlignmentEnum.LEFT,
@@ -380,6 +384,7 @@ export const home: HomeComponents[] = [
   },
   {
     name: "tile2",
+    className: "watchPadding",
     data: {
       card1: {
         align: AlignmentEnum.LEFT,
@@ -401,6 +406,30 @@ export const home: HomeComponents[] = [
         },
         color: ColorEnum.SECONDARY,
       },
+    },
+  },
+  {
+    name: "contact1",
+    data: {
+      title1: "We're always here to help",
+      title2: "You can get help by choosing from any of these options",
+      contacts: [
+        {
+          icon: { name: "AiOutlineQuestionCircle", type: "ai" },
+          title: "Help Center",
+          contact: "help.mail.com",
+        },
+        {
+          icon: { name: "IoCallOutline", type: "io5" },
+          title: "Phone",
+          contact: "+91 9876543210",
+        },
+        {
+          icon: { name: "MdOutlineEmail", type: "md" },
+          title: "Email Support",
+          contact: "help.mail.com",
+        },
+      ],
     },
   },
 ];

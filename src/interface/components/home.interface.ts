@@ -23,17 +23,25 @@ interface CommonCardProps {
   buttonText?: string;
   color?: ColorEnum;
 }
+interface Contacts {
+  icon: IIcon;
+  title: string;
+  contact: string;
+}
 
 export type Components =
   | "carousel1"
   | "category1"
   | "productTile"
   | "tile1"
-  | "tile2";
+  | "tile2"
+  | "contact1";
 
 interface Component<T, E extends Components> {
   name: E;
   data: T;
+  styles?: React.CSSProperties;
+  className?: string;
 }
 
 // Carousel 1
@@ -75,9 +83,17 @@ export interface Tile2Props {
   card2: CommonCardProps;
 }
 
+// Contact 1
+export interface Contact1Props {
+  title1: string;
+  title2: string;
+  contacts: Contacts[];
+}
+
 export type HomeComponents =
   | Component<Carousel1, "carousel1">
   | Component<Category1, "category1">
   | Component<ProductTile, "productTile">
   | Component<Tile1Props, "tile1">
-  | Component<Tile2Props, "tile2">;
+  | Component<Tile2Props, "tile2">
+  | Component<Contact1Props, "contact1">;
