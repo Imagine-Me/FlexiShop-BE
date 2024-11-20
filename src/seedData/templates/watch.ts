@@ -378,6 +378,31 @@ export const home: HomeComponents[] = [
       },
     },
   },
+  {
+    name: "tile2",
+    data: {
+      card1: {
+        align: AlignmentEnum.LEFT,
+        title1: "Timeless elegance",
+        title2: "Discover our accessories collection",
+        image: {
+          url: "http://localhost:3000/static/2850f52d-bb17-4a91-b435-e0e2f464257a",
+          name: "product - 1",
+        },
+        color: ColorEnum.PRIMARY,
+      },
+      card2: {
+        align: AlignmentEnum.RIGHT,
+        title1: "Find your perfect watch",
+        title2: "Explore our latest collection",
+        image: {
+          url: "http://localhost:3000/static/7c1939bd-e648-4960-9931-c46c658ca800",
+          name: "product - 2",
+        },
+        color: ColorEnum.SECONDARY,
+      },
+    },
+  },
 ];
 
 export default {

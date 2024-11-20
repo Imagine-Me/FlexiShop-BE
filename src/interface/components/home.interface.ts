@@ -24,7 +24,12 @@ interface CommonCardProps {
   color?: ColorEnum;
 }
 
-export type Components = "carousel1" | "category1" | "productTile" | "tile1";
+export type Components =
+  | "carousel1"
+  | "category1"
+  | "productTile"
+  | "tile1"
+  | "tile2";
 
 interface Component<T, E extends Components> {
   name: E;
@@ -64,8 +69,15 @@ export interface Tile1Props {
   card3: CommonCardProps;
 }
 
+// Tile 2
+export interface Tile2Props {
+  card1: CommonCardProps;
+  card2: CommonCardProps;
+}
+
 export type HomeComponents =
   | Component<Carousel1, "carousel1">
   | Component<Category1, "category1">
   | Component<ProductTile, "productTile">
-  | Component<Tile1Props, "tile1">;
+  | Component<Tile1Props, "tile1">
+  | Component<Tile2Props, "tile2">;
