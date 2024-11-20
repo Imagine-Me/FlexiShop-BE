@@ -1,6 +1,7 @@
 import { ThemeOptions } from "@mui/material";
 import { IFooter } from "src/interface/components/footer.interface";
 import { IHeader } from "src/interface/components/header.interface";
+import { HomeComponents } from "src/interface/components/home.interface";
 
 const theme: ThemeOptions = {
   components: {
@@ -210,9 +211,34 @@ const footer: IFooter = {
   ],
 };
 
+export const home: HomeComponents = [
+  {
+    name: "carousel1",
+    data: [
+      {
+        name: "watch-1",
+        url: "http://localhost:3000/static/a3b3e7b8-8a2d-4b54-a2d3-2f4868077ebe",
+      },
+      {
+        name: "watch-2",
+        url: "https://t3.ftcdn.net/jpg/05/88/96/12/360_F_588961271_RfOItwhZniSXm147QomUdB0r74xeFCfU.jpg",
+      },
+      {
+        name: "watch-3",
+        url: "https://mir-s3-cdn-cf.behance.net/project_modules/hd/89670937352801.573d3df298ad9.jpg",
+      },
+      {
+        name: "watch-4",
+        url: "https://img.pikbest.com/origin/06/43/38/95EpIkbEsTD94.jpg!w700wp",
+      },
+    ],
+  },
+];
+
 export default {
   name: "watch",
   theme,
   header,
   footer,
+  home,
 };
