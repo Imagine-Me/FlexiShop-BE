@@ -7,7 +7,15 @@ export interface ILink {
   url: string;
 }
 
-export type Components = "carousel1" | "category1";
+interface IProductModel {
+  title: string;
+  image: Partial<Filestore>;
+  price: number;
+  rating: number;
+  description: string;
+}
+
+export type Components = "carousel1" | "category1" | "productTile";
 
 interface Component<T, E extends Components> {
   name: E;
@@ -27,6 +35,13 @@ interface Category1 {
   link: ILink;
 }
 
+interface ProductTile {
+  products: IProductModel[];
+  title: string;
+  link: ILink;
+}
+
 export type HomeComponents =
   | Component<Carousel1, "carousel1">
-  | Component<Category1, "category1">;
+  | Component<Category1, "category1">
+  | Component<ProductTile, "productTile">;
