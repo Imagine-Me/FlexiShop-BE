@@ -211,7 +211,7 @@ const footer: IFooter = {
   ],
 };
 
-export const home: HomeComponents = [
+export const home: HomeComponents[] = [
   {
     name: "carousel1",
     data: [
@@ -232,6 +232,38 @@ export const home: HomeComponents = [
         url: "https://img.pikbest.com/origin/06/43/38/95EpIkbEsTD94.jpg!w700wp",
       },
     ],
+  },
+  {
+    name: "category1",
+    data: {
+      categories: [
+        {
+          icon: { name: "IoIosMale", type: "io" },
+          category: "Male",
+        },
+        {
+          icon: { name: "IoIosFemale", type: "io" },
+          category: "Female",
+        },
+        {
+          icon: { type: "io5", name: "IoWatchOutline" },
+          category: "Smart watch",
+        },
+        {
+          icon: { name: "IoStopwatchOutline", type: "io5" },
+          category: "Analog watch",
+        },
+        {
+          icon: { name: "TbDeviceWatchDollar", type: "tb" },
+          category: "Premium watch",
+        },
+      ],
+      link: {
+        title: "See All",
+        url: "/home",
+      },
+      title: "Shop By Category",
+    },
   },
 ];
 
