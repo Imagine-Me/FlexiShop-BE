@@ -8,6 +8,7 @@ import { Template } from "./entities/template.entity";
 import { Repository } from "typeorm";
 import { UpdateHeaderDto } from "./dto/update-header.dto";
 import { UpdateFooterDto } from "./dto/update-footer.dto";
+import { components } from "src/constants/components.constant";
 
 @Injectable()
 export class TemplatesService implements OnModuleInit {
@@ -69,6 +70,10 @@ export class TemplatesService implements OnModuleInit {
       ...row,
       footer: updateTemplateHeaderDto,
     });
+  }
+
+  getComponents() {
+    return components;
   }
 
   remove(id: number) {
