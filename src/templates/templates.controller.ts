@@ -18,6 +18,8 @@ import { Roles } from "src/decorator/role.decorator";
 import { UserRole } from "src/user/role";
 import { RoleGuard } from "src/guards/role.guard";
 import { AuthGuard } from "src/authentication/authentication.guard";
+import { HomeComponents } from "src/interface/components/home.interface";
+import { ThemeOptions } from "@mui/material";
 
 @Controller("templates")
 @ApiTags("Templates")
@@ -64,6 +66,25 @@ export class TemplatesController {
   @ApiBearerAuth()
   updateFooter(@Param("name") name: string, @Body() footer: UpdateFooterDto) {
     return this.templatesService.updateFooter(name, footer);
+  }
+
+  @Post("/home/:name")
+  @Roles([UserRole.ADMIN])
+  @UseGuards(RoleGuard, AuthGuard)
+  @ApiBearerAuth()
+  updateHome(
+    @Param("name") name: string,
+    @Body() home: { data: HomeComponents[] },
+  ) {
+    return this.templatesService.updateHome(name, home);
+  }
+
+  @Post("/theme/:name")
+  @Roles([UserRole.ADMIN])
+  @UseGuards(RoleGuard, AuthGuard)
+  @ApiBearerAuth()
+  updateTheme(@Param("name") name: string, @Body() theme: ThemeOptions) {
+    return this.templatesService.updateTheme(name, theme);
   }
 
   @Patch(":id")

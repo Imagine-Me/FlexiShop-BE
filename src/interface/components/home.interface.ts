@@ -42,12 +42,15 @@ interface Component<T, E extends Components> {
   name: E;
   data: T;
   description: string;
+  id?: string;
   styles?: React.CSSProperties;
   className?: string;
 }
 
 // Carousel 1
-type Carousel1 = Array<Partial<Filestore>>;
+interface Carousel1 {
+  images: Array<Partial<Filestore>>;
+}
 
 // Category 1
 interface Category1 {

@@ -9,6 +9,8 @@ import { Repository } from "typeorm";
 import { UpdateHeaderDto } from "./dto/update-header.dto";
 import { UpdateFooterDto } from "./dto/update-footer.dto";
 import { components } from "src/constants/components.constant";
+import { HomeComponents } from "src/interface/components/home.interface";
+import { ThemeOptions } from "@mui/material";
 
 @Injectable()
 export class TemplatesService implements OnModuleInit {
@@ -69,6 +71,30 @@ export class TemplatesService implements OnModuleInit {
     return this.templateRepository.save({
       ...row,
       footer: updateTemplateHeaderDto,
+    });
+  }
+
+  async updateHome(name: string, home: { data: HomeComponents[] }) {
+    const row = await this.findOne(name);
+    if (!row) {
+      throw new Error(`Template ${name} not found`);
+    }
+
+    return this.templateRepository.save({
+      ...row,
+      home: home.data,
+    });
+  }
+
+  async updateTheme(name: string, theme: ThemeOptions) {
+    const row = await this.findOne(name);
+    if (!row) {
+      throw new Error(`Template ${name} not found`);
+    }
+
+    return this.templateRepository.save({
+      ...row,
+      theme,
     });
   }
 

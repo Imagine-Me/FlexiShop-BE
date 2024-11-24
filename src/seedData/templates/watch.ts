@@ -193,24 +193,32 @@ const footer: IFooter = {
   copyright: "2024 FlexiShop. All rights reserved.",
   socialMedia: [
     {
-      url: "https://www.facebook.com",
+      link: {
+        url: "https://www.facebook.com",
+        title: "Facebook",
+      },
       icon: { name: "IoLogoFacebook", type: "io5" },
-      title: "Facebook",
     },
     {
-      url: "https://www.instagram.com",
+      link: {
+        url: "https://www.instagram.com",
+        title: "Instagram",
+      },
       icon: { name: "AiFillInstagram", type: "ai" },
-      title: "Instagram",
     },
     {
-      url: "https://www.twitter.com",
+      link: {
+        title: "Twitter",
+        url: "https://www.twitter.com",
+      },
       icon: { name: "FaTwitter", type: "fa" },
-      title: "Twitter",
     },
     {
-      url: "https://www.linkedin.com",
+      link: {
+        title: "LinkedIn",
+        url: "https://www.linkedin.com",
+      },
       icon: { name: "FaLinkedin", type: "fa6" },
-      title: "LinkedIn",
     },
   ],
 };
@@ -219,28 +227,32 @@ export const home: HomeComponents[] = [
   {
     name: "carousel1",
     className: "watchPadding",
+    id: "1",
     description:
       "The full-screen image carousel automatically transitions between high-resolution images, offering a seamless and visually engaging experience with smooth scrolling.",
-    data: [
-      {
-        name: "watch-1",
-        url: "http://localhost:3000/static/a3b3e7b8-8a2d-4b54-a2d3-2f4868077ebe",
-      },
-      {
-        name: "watch-2",
-        url: "https://t3.ftcdn.net/jpg/05/88/96/12/360_F_588961271_RfOItwhZniSXm147QomUdB0r74xeFCfU.jpg",
-      },
-      {
-        name: "watch-3",
-        url: "https://mir-s3-cdn-cf.behance.net/project_modules/hd/89670937352801.573d3df298ad9.jpg",
-      },
-      {
-        name: "watch-4",
-        url: "https://img.pikbest.com/origin/06/43/38/95EpIkbEsTD94.jpg!w700wp",
-      },
-    ],
+    data: {
+      images: [
+        {
+          name: "watch-1",
+          url: "http://localhost:3000/static/a3b3e7b8-8a2d-4b54-a2d3-2f4868077ebe",
+        },
+        {
+          name: "watch-2",
+          url: "https://t3.ftcdn.net/jpg/05/88/96/12/360_F_588961271_RfOItwhZniSXm147QomUdB0r74xeFCfU.jpg",
+        },
+        {
+          name: "watch-3",
+          url: "https://mir-s3-cdn-cf.behance.net/project_modules/hd/89670937352801.573d3df298ad9.jpg",
+        },
+        {
+          name: "watch-4",
+          url: "https://img.pikbest.com/origin/06/43/38/95EpIkbEsTD94.jpg!w700wp",
+        },
+      ],
+    },
   },
   {
+    id: "2",
     name: "category1",
     className: "watchPadding",
     description:
@@ -296,6 +308,7 @@ export const home: HomeComponents[] = [
     },
   },
   {
+    id: "3",
     name: "productTile",
     className: "watchPadding",
     description:
@@ -373,6 +386,7 @@ export const home: HomeComponents[] = [
     },
   },
   {
+    id: "4",
     name: "tile1",
     className: "watchPadding",
     description:
@@ -411,6 +425,7 @@ export const home: HomeComponents[] = [
     },
   },
   {
+    id: "5",
     name: "tile2",
     className: "watchPadding",
     description:
@@ -439,6 +454,7 @@ export const home: HomeComponents[] = [
     },
   },
   {
+    id: "6",
     name: "contact1",
     description:
       "Contact1 is a fully customizable component designed to display contact information such as phone numbers, email addresses, and physical locations, with flexible options for layout and styling.",
