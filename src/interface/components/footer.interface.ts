@@ -1,9 +1,9 @@
 import { IIcon } from "src/filestore/dto/icon.dto";
 import { Filestore } from "src/filestore/entities/filestore.entity";
+import { ILink } from "./home.interface";
 
 interface IIconLinks {
-  title: string;
-  url: string;
+  link: ILink;
   icon: IIcon;
 }
 

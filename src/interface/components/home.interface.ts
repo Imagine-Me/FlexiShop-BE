@@ -14,6 +14,7 @@ interface IProductModel {
   price: number;
   rating: number;
   description: string;
+  link?: ILink;
 }
 interface CommonCardProps {
   image: Partial<Filestore>;
@@ -40,12 +41,16 @@ export type Components =
 interface Component<T, E extends Components> {
   name: E;
   data: T;
+  description: string;
+  id?: string;
   styles?: React.CSSProperties;
   className?: string;
 }
 
 // Carousel 1
-type Carousel1 = Array<Partial<Filestore>>;
+interface Carousel1 {
+  images: Array<Partial<Filestore>>;
+}
 
 // Category 1
 interface Category1 {
@@ -53,6 +58,7 @@ interface Category1 {
   categories: {
     icon: IIcon;
     category: string;
+    link: ILink;
   }[];
   link: ILink;
 }

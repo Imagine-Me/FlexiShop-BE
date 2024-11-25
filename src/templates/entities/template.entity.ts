@@ -21,5 +21,5 @@ export class Template extends BaseEntity {
   footer: IFooter;
 
   @Column("json")
-  home: HomeComponents;
+  home: HomeComponents[];
 }
