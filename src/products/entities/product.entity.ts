@@ -46,7 +46,7 @@ export class Product extends BaseEntity {
   @Column("simple-json", { nullable: true })
   images: IIcon[];
 
-  @Column({ type: "enum", enum: ["active", "inactive", "archived"] })
+  @Column({ type: "enum", enum: ["active", "draft", "archived"] })
   status: string;
 
   @ManyToMany(() => Tag)

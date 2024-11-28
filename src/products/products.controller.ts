@@ -6,11 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from "@nestjs/common";
 import { ProductsService } from "./products.service";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiQuery, ApiTags } from "@nestjs/swagger";
 import { CreateCategoryDto } from "./dto/create-category.dto";
 import { CreateBrandDto } from "./dto/create-brand.dto";
 
@@ -25,8 +26,23 @@ export class ProductsController {
   }
 
   @Get()
-  findAllProducts() {
-    return this.productsService.findAllProducts();
+  @ApiQuery({
+    name: "page",
+    required: false,
+    example: 1,
+    description: "Page number (default: 1)",
+  })
+  @ApiQuery({
+    name: "limit",
+    required: false,
+    example: 10,
+    description: "Number of items per page (default: 10)",
+  })
+  findAllProducts(
+    @Query("page") page: number = 1,
+    @Query("limit") limit: number = 10,
+  ) {
+    return this.productsService.findAllProducts(page, limit);
   }
 
   @Get("/category")

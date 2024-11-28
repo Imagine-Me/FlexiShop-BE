@@ -23,8 +23,13 @@ export class ProductsService {
     private readonly tagRepository: Repository<Tag>,
   ) {}
 
-  findAllProducts() {
-    return this.productRepository.find();
+  async findAllProducts(page = 1, limit = 1) {
+    const [data, total] = await this.productRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+      relations: ["variants"],
+    });
+    return { data, total, currentPage: page };
   }
 
   findAllCategories() {
