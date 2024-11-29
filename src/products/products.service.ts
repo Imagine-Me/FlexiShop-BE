@@ -1,4 +1,8 @@
-import { Injectable } from "@nestjs/common";
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -9,12 +13,15 @@ import { Brand } from "./entities/brand.entity";
 import { CreateCategoryDto } from "./dto/create-category.dto";
 import { CreateBrandDto } from "./dto/create-brand.dto";
 import { Tag } from "./entities/tag.entity";
+import { ProductVariant } from "./entities/productVariant.entity";
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    @InjectRepository(ProductVariant)
+    private readonly productVariantRepository: Repository<ProductVariant>,
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>,
     @InjectRepository(Brand)
@@ -44,10 +51,19 @@ export class ProductsService {
     return this.tagRepository.find();
   }
 
-  createProduct(createProductDto: CreateProductDto) {
-    console.log(createProductDto);
-    const product = this.productRepository.create(createProductDto);
-    return this.productRepository.save(product);
+  async createProduct(createProductDto: CreateProductDto) {
+    try {
+      const product = this.productRepository.create(createProductDto);
+      return await this.productRepository.save(product);
+    } catch (e) {
+      if (e.code === "ER_DUP_ENTRY") {
+        // PostgreSQL unique constraint violation code
+        throw new ConflictException(
+          `Product with name "${createProductDto.name}" already exists.`,
+        );
+      }
+      throw new ConflictException(e.message);
+    }
   }
 
   createCategory(createCategoryDto: CreateCategoryDto) {
@@ -60,15 +76,27 @@ export class ProductsService {
     return this.brandRepository.save(brand);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  findOne(id: string) {
+    return this.productRepository.findOne({
+      where: { id },
+      relations: ["variants"],
+    });
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product ${updateProductDto}`;
+  async updateProduct(id: string, updateProductDto: UpdateProductDto) {
+    const row = await this.findOne(id);
+    if (row) {
+      return this.productRepository.save({ ...row, ...updateProductDto });
+    }
+    throw new NotFoundException(`Product with ID ${id} not found.`);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async removeProduct(id: string) {
+    await this.removeProductVariantsByProductId(id);
+    return this.productRepository.delete(id);
+  }
+
+  async removeProductVariantsByProductId(id: string) {
+    return this.productVariantRepository.delete({ product: { id } });
   }
 }

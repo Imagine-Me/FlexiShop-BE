@@ -12,39 +12,41 @@ import { Category } from "./category.entity";
 import { Brand } from "./brand.entity";
 import { Tag } from "./tag.entity";
 import { ProductVariant } from "./productVariant.entity";
-import { IIcon } from "src/filestore/dto/icon.dto";
+import { Filestore } from "src/filestore/entities/filestore.entity";
 
 @Entity()
 export class Product extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
+  @Column({ unique: true, nullable: false })
   name: string;
 
   @Column("text")
   description: string;
 
-  @Column("decimal", { precision: 10, scale: 2 })
+  @Column("decimal", { precision: 10, scale: 2, nullable: true })
   price: number;
 
   @Column("decimal", { precision: 10, scale: 2, nullable: true })
   discountPrice: number;
 
-  @Column("int")
+  @Column("int", { nullable: true })
   stock: number;
 
-  @ManyToOne(() => Category, (category) => category.products)
+  @ManyToOne(() => Category, (category) => category.products, {
+    cascade: false,
+  })
   category: Category;
 
-  @ManyToOne(() => Brand, (brand) => brand.products)
+  @ManyToOne(() => Brand, (brand) => brand.products, { cascade: false })
   brand: Brand;
 
   @Column("text", { nullable: true })
   specifications: string;
 
   @Column("simple-json", { nullable: true })
-  images: IIcon[];
+  images: Partial<Filestore>[];
 
   @Column({ type: "enum", enum: ["active", "draft", "archived"] })
   status: string;
@@ -65,6 +67,10 @@ export class Product extends BaseEntity {
 
   @OneToMany(() => ProductVariant, (variant) => variant.product, {
     cascade: true,
+    onDelete: "CASCADE",
   })
   variants: ProductVariant[];
+
+  @Column({ type: "boolean", default: false })
+  isVariant: boolean;
 }

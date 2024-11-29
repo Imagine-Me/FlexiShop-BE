@@ -1,9 +1,29 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
+import { IsBoolean, IsNotEmpty, IsString } from "class-validator";
 import { Filestore } from "src/filestore/entities/filestore.entity";
+
+class Variant {
+  @ApiPropertyOptional({ description: "Name of the variant", example: "Color" })
+  name: string;
+
+  @ApiPropertyOptional({ description: "Price of the variant", example: 10 })
+  price: number;
+
+  @ApiPropertyOptional({ description: "Stock for the variant", example: 50 })
+  stock: number;
+
+  @ApiPropertyOptional({
+    description: "Description of the variant",
+    example: "A high-end smartphone with 128GB storage",
+  })
+  description?: string;
+}
 
 export class CreateProductDto {
   @ApiProperty({ description: "Name of the product", example: "Smartphone" })
+  @IsString()
+  @IsNotEmpty()
   name: string;
 
   @ApiProperty({
@@ -78,13 +98,7 @@ export class CreateProductDto {
       },
     ],
   })
-  variants?: Array<{
-    name: string;
-    value: string;
-    price: number;
-    stock: number;
-    description: string;
-  }>;
+  variants?: Array<Variant>;
 
   @ApiPropertyOptional({
     description: "Status of the product",
@@ -92,4 +106,11 @@ export class CreateProductDto {
     default: "active",
   })
   status?: "active" | "inactive" | "archived";
+
+  @ApiPropertyOptional({
+    description: "Does this product have variants?",
+    example: false,
+  })
+  @IsBoolean()
+  isVariant?: boolean;
 }
