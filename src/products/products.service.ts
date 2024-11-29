@@ -43,8 +43,12 @@ export class ProductsService {
     return this.categoryRepository.find();
   }
 
-  findAllBrands() {
-    return this.brandRepository.find();
+  async findAllBrands(page = 1, limit = 1) {
+    const [data, total] = await this.brandRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+    return { data, total, currentPage: page };
   }
 
   findAllTags() {
@@ -76,6 +80,12 @@ export class ProductsService {
     return this.brandRepository.save(brand);
   }
 
+  findOneBrand(id: string) {
+    return this.brandRepository.findOne({
+      where: { id },
+    });
+  }
+
   findOne(id: string) {
     return this.productRepository.findOne({
       where: { id },
@@ -98,5 +108,9 @@ export class ProductsService {
 
   async removeProductVariantsByProductId(id: string) {
     return this.productVariantRepository.delete({ product: { id } });
+  }
+
+  removeBrand(id: string) {
+    return this.brandRepository.delete(id);
   }
 }

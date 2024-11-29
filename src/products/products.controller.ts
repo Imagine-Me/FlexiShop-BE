@@ -55,14 +55,39 @@ export class ProductsController {
     return this.productsService.createCategory(createCategoryDto);
   }
 
-  @Get("/brand")
-  findAllBrands() {
-    return this.productsService.findAllBrands();
+  @Get("/brands")
+  @ApiQuery({
+    name: "page",
+    required: false,
+    example: 1,
+    description: "Page number (default: 1)",
+  })
+  @ApiQuery({
+    name: "limit",
+    required: false,
+    example: 10,
+    description: "Number of items per page (default: 10)",
+  })
+  findAllBrands(
+    @Query("page") page: number = 1,
+    @Query("limit") limit: number = 10,
+  ) {
+    return this.productsService.findAllBrands(page, limit);
   }
 
-  @Post("/brand")
+  @Get("/brands/:id")
+  findOneBrand(@Param("id") id: string) {
+    return this.productsService.findOneBrand(id);
+  }
+
+  @Post("/brands")
   createBrand(@Body() createBrandDto: CreateBrandDto) {
     return this.productsService.createBrand(createBrandDto);
+  }
+
+  @Delete("brands/:id")
+  removeBrand(@Param("id") id: string) {
+    return this.productsService.removeBrand(id);
   }
 
   @Get("/tags")
