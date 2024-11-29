@@ -14,6 +14,8 @@ import { UpdateProductDto } from "./dto/update-product.dto";
 import { ApiQuery, ApiTags } from "@nestjs/swagger";
 import { CreateCategoryDto } from "./dto/create-category.dto";
 import { CreateBrandDto } from "./dto/create-brand.dto";
+import { UpdateBrandDto } from "./dto/update-brand.dto";
+import { UpdateCategoryDto } from "./dto/update-category.dto";
 
 @Controller("products")
 @ApiTags("products")
@@ -45,12 +47,32 @@ export class ProductsController {
     return this.productsService.findAllProducts(page, limit);
   }
 
-  @Get("/category")
-  findAllCategories() {
-    return this.productsService.findAllCategories();
+  @Get("/categories")
+  @ApiQuery({
+    name: "page",
+    required: false,
+    example: 1,
+    description: "Page number (default: 1)",
+  })
+  @ApiQuery({
+    name: "limit",
+    required: false,
+    example: 10,
+    description: "Number of items per page (default: 10)",
+  })
+  findAllCategories(
+    @Query("page") page: number = 1,
+    @Query("limit") limit: number = 10,
+  ) {
+    return this.productsService.findAllCategories(page, limit);
   }
 
-  @Post("/category")
+  @Get("/categories/:id")
+  findOneCategory(@Param("id") id: string) {
+    return this.productsService.findOneCategory(id);
+  }
+
+  @Post("/categories")
   createCategory(@Body() createCategoryDto: CreateCategoryDto) {
     return this.productsService.createCategory(createCategoryDto);
   }
@@ -90,6 +112,11 @@ export class ProductsController {
     return this.productsService.removeBrand(id);
   }
 
+  @Delete("categories/:id")
+  removeCategory(@Param("id") id: string) {
+    return this.productsService.removeCategory(id);
+  }
+
   @Get("/tags")
   findAllTags() {
     return this.productsService.findAllTags();
@@ -98,6 +125,22 @@ export class ProductsController {
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.productsService.findOne(id);
+  }
+
+  @Patch("/brands/:id")
+  updateBrand(
+    @Param("id") id: string,
+    @Body() updateProductDto: UpdateBrandDto,
+  ) {
+    return this.productsService.updateBrand(id, updateProductDto);
+  }
+
+  @Patch("/categories/:id")
+  updateCategory(
+    @Param("id") id: string,
+    @Body() updateCategoryDto: UpdateCategoryDto,
+  ) {
+    return this.productsService.updateCategory(id, updateCategoryDto);
   }
 
   @Patch(":id")

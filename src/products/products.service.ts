@@ -14,6 +14,7 @@ import { CreateCategoryDto } from "./dto/create-category.dto";
 import { CreateBrandDto } from "./dto/create-brand.dto";
 import { Tag } from "./entities/tag.entity";
 import { ProductVariant } from "./entities/productVariant.entity";
+import { UpdateCategoryDto } from "./dto/update-category.dto";
 
 @Injectable()
 export class ProductsService {
@@ -39,8 +40,12 @@ export class ProductsService {
     return { data, total, currentPage: page };
   }
 
-  findAllCategories() {
-    return this.categoryRepository.find();
+  async findAllCategories(page = 1, limit = 1) {
+    const [data, total] = await this.categoryRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+    return { data, total, currentPage: page };
   }
 
   async findAllBrands(page = 1, limit = 1) {
@@ -86,6 +91,12 @@ export class ProductsService {
     });
   }
 
+  findOneCategory(id: string) {
+    return this.categoryRepository.findOne({
+      where: { id },
+    });
+  }
+
   findOne(id: string) {
     return this.productRepository.findOne({
       where: { id },
@@ -101,6 +112,22 @@ export class ProductsService {
     throw new NotFoundException(`Product with ID ${id} not found.`);
   }
 
+  async updateBrand(id: string, updateBrandDto: UpdateProductDto) {
+    const row = await this.findOneBrand(id);
+    if (row) {
+      return this.brandRepository.save({ ...row, ...updateBrandDto });
+    }
+    throw new NotFoundException(`Brand with ID ${id} not found.`);
+  }
+
+  async updateCategory(id: string, updateCategoryDto: UpdateCategoryDto) {
+    const row = await this.findOneCategory(id);
+    if (row) {
+      return this.categoryRepository.save({ ...row, ...updateCategoryDto });
+    }
+    throw new NotFoundException(`Category with ID ${id} not found.`);
+  }
+
   async removeProduct(id: string) {
     await this.removeProductVariantsByProductId(id);
     return this.productRepository.delete(id);
@@ -112,5 +139,9 @@ export class ProductsService {
 
   removeBrand(id: string) {
     return this.brandRepository.delete(id);
+  }
+
+  removeCategory(id: string) {
+    return this.categoryRepository.delete(id);
   }
 }
