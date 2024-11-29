@@ -56,6 +56,14 @@ export class ProductsService {
     return { data, total, currentPage: page };
   }
 
+  getAllBrands() {
+    return this.brandRepository.find();
+  }
+
+  getAllCategories() {
+    return this.categoryRepository.find();
+  }
+
   findAllTags() {
     return this.tagRepository.find();
   }
@@ -100,7 +108,7 @@ export class ProductsService {
   findOne(id: string) {
     return this.productRepository.findOne({
       where: { id },
-      relations: ["variants"],
+      relations: ["variants", "brand", "category"],
     });
   }
 
