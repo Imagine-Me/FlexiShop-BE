@@ -66,6 +66,10 @@ export class ProductsController {
   ) {
     return this.productsService.findAllCategories(page, limit);
   }
+  @Get("/categories/all")
+  getAllCategories() {
+    return this.productsService.getAllCategories();
+  }
 
   @Get("/categories/:id")
   findOneCategory(@Param("id") id: string) {
@@ -95,6 +99,11 @@ export class ProductsController {
     @Query("limit") limit: number = 10,
   ) {
     return this.productsService.findAllBrands(page, limit);
+  }
+
+  @Get("/brands/all")
+  getAllBrands() {
+    return this.productsService.getAllBrands();
   }
 
   @Get("/brands/:id")
