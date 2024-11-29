@@ -10,6 +10,7 @@ import { AppconfigModule } from "./appconfig/appconfig.module";
 import { FilestoreModule } from "./filestore/filestore.module";
 import { join } from "path";
 import { TemplatesModule } from "./templates/templates.module";
+import { ProductsModule } from "./products/products.module";
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { TemplatesModule } from "./templates/templates.module";
     AppconfigModule,
     FilestoreModule,
     TemplatesModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

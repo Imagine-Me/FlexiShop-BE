@@ -1,6 +1,7 @@
 import { IIcon } from "src/filestore/dto/icon.dto";
 import { Filestore } from "src/filestore/entities/filestore.entity";
 import { AlignmentEnum, ColorEnum } from "./common.interface";
+import { Product } from "src/products/entities/product.entity";
 // interface
 
 export interface ILink {
@@ -8,14 +9,6 @@ export interface ILink {
   url: string;
 }
 
-interface IProductModel {
-  title: string;
-  image: Partial<Filestore>;
-  price: number;
-  rating: number;
-  description: string;
-  link?: ILink;
-}
 interface CommonCardProps {
   image: Partial<Filestore>;
   title1: string;
@@ -65,7 +58,7 @@ interface Category1 {
 
 // Product Tile
 interface ProductTile {
-  products: IProductModel[];
+  products: Partial<Product>[];
   title: string;
   link: ILink;
 }
