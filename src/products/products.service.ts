@@ -49,7 +49,7 @@ export class ProductsService {
   findOne(id: string) {
     return this.productRepository.findOne({
       where: { id },
-      relations: ["variants", "brand", "category"],
+      relations: ["variants", "brand", "category", "tags"],
     });
   }
 
