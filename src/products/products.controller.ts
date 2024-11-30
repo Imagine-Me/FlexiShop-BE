@@ -18,6 +18,8 @@ import { UpdateBrandDto } from "./dto/update-brand.dto";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
 import { CreateTagDto } from "./dto/create-tag.dto";
 import { UpdateTagDto } from "./dto/update-tag.dto";
+import { CreateVariantDto } from "./dto/create-variant.dto";
+import { UpdateVariantDto } from "./dto/update-variant.dto";
 
 @Controller("products")
 @ApiTags("products")
@@ -187,6 +189,68 @@ export class ProductsController {
   @Delete("tags/:id")
   removeTag(@Param("id") id: string) {
     return this.productsService.removeTag(id);
+  }
+
+  // ! ------------------VARIANTS -----------------------
+
+  // ? PAGINATE
+  @Get("/variants")
+  @ApiQuery({
+    name: "page",
+    required: false,
+    example: 1,
+    description: "Page number (default: 1)",
+  })
+  @ApiQuery({
+    name: "limit",
+    required: false,
+    example: 10,
+    description: "Number of items per page (default: 10)",
+  })
+  findAllVariants(
+    @Query("page") page: number = 1,
+    @Query("limit") limit: number = 10,
+  ) {
+    return this.productsService.findAllVariants(page, limit);
+  }
+
+  // ? GET ALL
+  @Get("/variants/distinct/all")
+  getAllVariants() {
+    return this.productsService.getAllVariantsDistinct();
+  }
+
+  // ? GET ALL DISTINCT
+  @Get("/variants/all")
+  getAllVariantsDistinct() {
+    return this.productsService.getAllVariants();
+  }
+
+  // ? GET ONE
+  @Get("/variants/:id")
+  findOneVariant(@Param("id") id: string) {
+    return this.productsService.findOneVariant(id);
+  }
+
+  // ? SAVE
+  @Post("/variants")
+  createVariant(@Body() createVariantDto: CreateVariantDto) {
+    return this.productsService.createVariant(createVariantDto);
+  }
+
+  // ? UPDATE
+  @Patch("/variants/:id")
+  updateVariant(
+    @Param("id") id: string,
+    @Body() updateVariantDto: UpdateVariantDto,
+  ) {
+    return this.productsService.updateVariant(id, updateVariantDto);
+  }
+
+  // ? DELETE
+  @Delete("variants/:id")
+  removeVariant(@Param("id") id: string) {
+    return this.productsService.removeVariant(id);
   }
 
   //! ------------------- PRODUCT -------------------

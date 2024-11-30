@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  UnprocessableEntityException,
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
@@ -17,6 +18,9 @@ import { ProductVariant } from "./entities/productVariant.entity";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
 import { CreateTagDto } from "./dto/create-tag.dto";
 import { UpdateTagDto } from "./dto/update-tag.dto";
+import { Variant } from "./entities/variant.entity";
+import { CreateVariantDto } from "./dto/create-variant.dto";
+import { UpdateVariantDto } from "./dto/update-variant.dto";
 
 @Injectable()
 export class ProductsService {
@@ -31,6 +35,8 @@ export class ProductsService {
     private readonly brandRepository: Repository<Brand>,
     @InjectRepository(Tag)
     private readonly tagRepository: Repository<Tag>,
+    @InjectRepository(Variant)
+    private readonly variantRepository: Repository<Variant>,
   ) {}
 
   // ! -------------------PRODUCTS ----------------
@@ -49,13 +55,19 @@ export class ProductsService {
   findOne(id: string) {
     return this.productRepository.findOne({
       where: { id },
-      relations: ["variants", "brand", "category", "tags"],
+      relations: ["variants", "brand", "category", "tags", "variants.variant"],
     });
   }
 
   // ? SAVE
   async createProduct(createProductDto: CreateProductDto) {
     try {
+      if (!createProductDto.isVariant) {
+        createProductDto.variants = [];
+        if (!createProductDto.price) {
+          throw new UnprocessableEntityException(`Price required`);
+        }
+      }
       const product = this.productRepository.create(createProductDto);
       return await this.productRepository.save(product);
     } catch (e) {
@@ -73,6 +85,12 @@ export class ProductsService {
   async updateProduct(id: string, updateProductDto: UpdateProductDto) {
     const row = await this.findOne(id);
     if (row) {
+      if (!updateProductDto.isVariant) {
+        updateProductDto.variants = [];
+        if (!updateProductDto.price) {
+          throw new UnprocessableEntityException(`Price required`);
+        }
+      }
       return this.productRepository.save({ ...row, ...updateProductDto });
     }
     throw new NotFoundException(`Product with ID ${id} not found.`);
@@ -245,5 +263,70 @@ export class ProductsService {
   // ? DELETE
   removeTag(id: string) {
     return this.tagRepository.delete(id);
+  }
+
+  // !--------------------VARIANTS--------------------------
+
+  // ? PAGINATE
+  async findAllVariants(page = 1, limit = 1) {
+    const [data, total] = await this.variantRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+    return { data, total, currentPage: page };
+  }
+
+  // ? GET ALL DISTINCT
+  getAllVariantsDistinct() {
+    return this.variantRepository
+      .createQueryBuilder("variants")
+      .select("variants.name", "name") // Group by `name`
+      .addSelect("MIN(variants.id)", "id") // Select the smallest `id` for each group
+      .addSelect("MIN(variants.value)", "value") // Aggregate `value`
+      .addSelect("MIN(variants.html)", "html") // Aggregate `html`
+      .groupBy("variants.name") // Group only by `name`
+      .getRawMany(); // Use `getRawMany()` to return raw SQL results
+  }
+
+  // ? GET ALL
+  getAllVariants() {
+    return this.variantRepository.find({ order: { name: "ASC" } });
+  }
+
+  // ? GET ONE
+  findOneVariant(id: string) {
+    return this.variantRepository.findOne({
+      where: { id },
+    });
+  }
+
+  // ? SAVE
+  async createVariant(createVariantDto: CreateVariantDto) {
+    try {
+      const tag = this.variantRepository.create(createVariantDto);
+      return await this.variantRepository.save(tag);
+    } catch (e) {
+      if (e.code === "ER_DUP_ENTRY") {
+        // PostgreSQL unique constraint violation code
+        throw new ConflictException(
+          `Variant with name "${createVariantDto.name}" already exists.`,
+        );
+      }
+      throw new ConflictException(e.message);
+    }
+  }
+
+  // ? UPDATE
+  async updateVariant(id: string, updateVariantDto: UpdateVariantDto) {
+    const row = await this.findOneVariant(id);
+    if (row) {
+      return this.variantRepository.save({ ...row, ...updateVariantDto });
+    }
+    throw new NotFoundException(`Tag with ID ${id} not found.`);
+  }
+
+  // ? DELETE
+  removeVariant(id: string) {
+    return this.variantRepository.delete(id);
   }
 }
