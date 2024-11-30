@@ -40,7 +40,7 @@ export class FilestoreService {
   }
 
   findAll() {
-    return this.fileStoreRepository.find();
+    return this.fileStoreRepository.find({ order: { createdAt: "DESC" } });
   }
 
   async findByTags(name: string) {
