@@ -8,7 +8,7 @@ import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Product } from "./entities/product.entity";
-import { Repository } from "typeorm";
+import { ILike, Repository } from "typeorm";
 import { Category } from "./entities/category.entity";
 import { Brand } from "./entities/brand.entity";
 import { CreateCategoryDto } from "./dto/create-category.dto";
@@ -21,6 +21,7 @@ import { UpdateTagDto } from "./dto/update-tag.dto";
 import { Variant } from "./entities/variant.entity";
 import { CreateVariantDto } from "./dto/create-variant.dto";
 import { UpdateVariantDto } from "./dto/update-variant.dto";
+import { IProductSearchResult } from "src/interface/product.interface";
 
 @Injectable()
 export class ProductsService {
@@ -57,6 +58,65 @@ export class ProductsService {
       where: { id },
       relations: ["variants", "brand", "category", "tags", "variants.variant"],
     });
+  }
+
+  // ? SEARCH PRODUCTS
+  async searchProducts(search: string) {
+    let result: IProductSearchResult[] = [];
+    const brands = await this.brandRepository.find({
+      where: { name: ILike(`%${search}%`) },
+    });
+    result = result.concat(
+      brands.map((brand) => ({
+        link: `/product?search=${brand.name}`,
+        name: brand.name,
+        image: brand.logo,
+      })),
+    );
+    if (result.length < 10) {
+      const products = await this.productRepository.find({
+        where: { name: ILike(`%${search}%`) },
+        relations: ["variants"],
+        take: 10,
+      });
+      result = result.concat(
+        products.map((product) => ({
+          link: `/product/${product.id}`,
+          name: product.name,
+          image: product.images?.[0] || product.variants?.[0]?.images?.[0],
+        })),
+      );
+    }
+    return result;
+  }
+
+  // ? GET PRODUCT LIST
+  async getProductList(search = "") {
+    const products = this.productRepository
+      .createQueryBuilder("product")
+      .leftJoinAndSelect("product.category", "category")
+      .leftJoinAndSelect("product.brand", "brand")
+      .leftJoinAndSelect("product.tags", "tags")
+      .leftJoinAndSelect("product.variants", "variants");
+    if (search) {
+      products
+        .where("LOWER(product.name) LIKE :searchWord", {
+          searchWord: `%${search.toLowerCase()}%`,
+        })
+        .orWhere("LOWER(product.description) LIKE :searchWord", {
+          searchWord: `%${search.toLowerCase()}%`,
+        })
+        .orWhere("LOWER(category.name) LIKE :searchWord", {
+          searchWord: `%${search.toLowerCase()}%`,
+        })
+        .orWhere("LOWER(brand.name) LIKE :searchWord", {
+          searchWord: `%${search.toLowerCase()}%`,
+        })
+        .orWhere("LOWER(tags.name) LIKE :searchWord", {
+          searchWord: `%${search.toLowerCase()}%`,
+        });
+    }
+    return products.getMany();
   }
 
   // ? SAVE

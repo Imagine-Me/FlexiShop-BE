@@ -8,6 +8,7 @@ import { Tag } from "./entities/tag.entity";
 import { Product } from "./entities/product.entity";
 import { ProductVariant } from "./entities/productVariant.entity";
 import { Variant } from "./entities/variant.entity";
+import { UserModule } from "src/user/user.module";
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { Variant } from "./entities/variant.entity";
       ProductVariant,
       Variant,
     ]),
+    UserModule,
   ],
   controllers: [ProductsController],
   providers: [ProductsService],
