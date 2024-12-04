@@ -25,6 +25,7 @@ import { Roles } from "src/decorator/role.decorator";
 import { UserRole } from "src/user/role";
 import { RoleGuard } from "src/guards/role.guard";
 import { AuthGuard } from "src/authentication/authentication.guard";
+import { Public } from "src/authentication/constants";
 
 @Controller("products")
 @ApiTags("products")
@@ -368,6 +369,19 @@ export class ProductsController {
     return this.productsService.findOne(id);
   }
 
+  // ? SEARCH LIST
+  @Get("search/all")
+  @Public()
+  getProductList(@Query("search") search: string) {
+    return this.productsService.getProductList(search);
+  }
+
+  // ? SEARCH PRODUCT
+  @Get("search/:product")
+  @Public()
+  searchProducts(@Param("product") product: string) {
+    return this.productsService.searchProducts(product);
+  }
   // ? SAVE
   @Post()
   @Roles([UserRole.ADMIN])
